@@ -1,6 +1,6 @@
 # 容器逃逸与安全容器
 ## Docker运行流程
-Docker由Docker-Client,dockerd,containerd,docker-shim,runc组成。
+Docker由Docker-Client, dockerd, containerd, docker-shim, runc组成。
 
 ![](images/docker.png)
 
