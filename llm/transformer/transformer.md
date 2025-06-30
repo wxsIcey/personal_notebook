@@ -11,11 +11,13 @@
 - **CNN**：CNN（Convolutional Neural Network）卷积神经网络适用于处理图像数据，其结构由卷积层、池化层和全连接层组成。卷积层用于提取输入数据中的局部特征，之后池化层对卷积层的输出进行下采样，保留局部最显著的特征进而减少计算量，然后全连接层对提取的特征进行进一步处理和分类，产生最终分类结果和特征表示。
 
 ## Transformer架构
-如图1所示，左侧为编码器，右侧为解码器。编码器接收向量列表作为输入，通过将向量传递到self-attention层，然后传递到前馈神经网络层Feed Forward来处理此类别，之后将输出向上发送到下一个Encoder。解码器比编码器多了一层Encoder-Decoder Attention，帮助解码器关注输入句子的相关部分。
 ![](images/arch.png)
+
+如图所示，左侧为编码器，右侧为解码器。编码器接收向量列表作为输入，通过将向量传递到self-attention层，然后传递到前馈神经网络层Feed Forward来处理此类别，之后将输出向上发送到下一个Encoder。解码器比编码器多了一层Encoder-Decoder Attention，帮助解码器关注输入句子的相关部分。
 
 ### Self-Attention模块
 ![](images/self-attention.png)
+
 - Query：想要从文本中提取的特征
 - Key：文本中每个词语的表示，用于帮助计算Query与其他词语之间的关联程度
 - Value：每个词语的具体含义或特征向量
@@ -30,10 +32,12 @@ q<sub>1</sub>  = X<sub>1</sub> * W<sup>Q</sup>, k<sub>1</sub> = X<sub>1</sub> * 
 
 #### 权重计算
 ![](images/weight.png)
+
 当计算一个单词与其它单词之间关系时，用该单词的Q去请求其他单词的K，得到一个分数，将分数归一化，与每个单词的V做线性加权和得到该单词的self-attention的输出。
 
 ### 其他模块
 ![](images/other.png)
+
 Residual Connection： X<sub>1</sub>经过层层处理后的输出并不作为最终输出，而是要再加一次进行网络的跳连，该操作是为了解决梯度消失的问题（可以参考Resnet的实现）；
 LayerNorm：归一化层，调整数据的分布，有助于训练的收敛；
 Feed Forward：由于在self-attention内部结构中，进行的都是矩阵乘法即线性变换，而线性变换的学习能力不如非线性变换强，因此通过Feed Forward激活函数来增强单词表达能力。
