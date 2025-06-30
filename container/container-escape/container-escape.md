@@ -96,11 +96,11 @@ Kata Containers项目最初由Hyper.sh的runV项目与Intel的Clear Container合
 - 共享数据块：最小单位为数据块（chunk），可跨镜像共享基础层数据块。例如，若上传了一个Ubuntu镜像到远端仓库，之后想基于Ubuntu构建一个Python镜像和一个Nginx镜像，可以通过--base-bootstrap=bootstrap_xxx.json来引用远程Ubuntu镜像中的数据块chunks，之后进行新镜像的构建，在上传镜像时只上传新增的Chunks。
 
 # 参考链接
-https://www.docker.com/blog/containerd-vs-docker/
-https://www.cnblogs.com/xiaozi/p/13423853.html
-https://www.thebyte.com.cn/container/CRI-in-Kubernetes.html
-https://www.lixueduan.com/posts/docker/03-container-core/
-https://juejin.cn/post/7096115284875935781
-https://www.infoq.cn/article/dgbkj0dwftxeusp64dk9
-https://www.ctyun.cn/developer/article/531766025101381
+* https://www.docker.com/blog/containerd-vs-docker/
+* https://www.cnblogs.com/xiaozi/p/13423853.html
+* https://www.thebyte.com.cn/container/CRI-in-Kubernetes.html
+* https://www.lixueduan.com/posts/docker/03-container-core/
+* https://juejin.cn/post/7096115284875935781
+* https://www.infoq.cn/article/dgbkj0dwftxeusp64dk9
+* https://www.ctyun.cn/developer/article/531766025101381
 

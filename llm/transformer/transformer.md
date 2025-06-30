@@ -38,12 +38,12 @@ q<sub>1</sub>  = X<sub>1</sub> * W<sup>Q</sup>, k<sub>1</sub> = X<sub>1</sub> * 
 ### 其他模块
 ![](images/other.png)
 
-Residual Connection： X<sub>1</sub>经过层层处理后的输出并不作为最终输出，而是要再加一次进行网络的跳连，该操作是为了解决梯度消失的问题（可以参考Resnet的实现）；
-LayerNorm：归一化层，调整数据的分布，有助于训练的收敛；
-Feed Forward：由于在self-attention内部结构中，进行的都是矩阵乘法即线性变换，而线性变换的学习能力不如非线性变换强，因此通过Feed Forward激活函数来增强单词表达能力。
+- Residual Connection： X<sub>1</sub>经过层层处理后的输出并不作为最终输出，而是要再加一次进行网络的跳连，该操作是为了解决梯度消失的问题（可以参考Resnet的实现）；
+- LayerNorm：归一化层，调整数据的分布，有助于训练的收敛；
+- Feed Forward：由于在self-attention内部结构中，进行的都是矩阵乘法即线性变换，而线性变换的学习能力不如非线性变换强，因此通过Feed Forward激活函数来增强单词表达能力。
 
 # 参考链接
-https://jalammar.github.io/illustrated-transformer/
-https://zhuanlan.zhihu.com/p/338817680
-https://www.zhihu.com/people/shi-xing-deng-yi
+* https://jalammar.github.io/illustrated-transformer/
+* https://zhuanlan.zhihu.com/p/338817680
+* https://www.zhihu.com/people/shi-xing-deng-yi
 
