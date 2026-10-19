@@ -146,3 +146,96 @@ python3 aisbench_test.py \
 ├─────────────────────────┼─────────┼────────────────────┤
 │ Total Token Throughput  │ total   │ 15045.9284 token/s │
 ╘═════════════════════════╧═════════╧════════════════════╛
+
+
+vllm serve "/home/weight/DeepSeek-V4-Flash-0731" \
+  --max-model-len 10000 \
+  --max-num-batched-tokens 32768 \
+  --served-model-name deepseek_v4 \
+  --gpu-memory-utilization 0.9 \
+  --max-num-seqs 256 \
+  --tensor-parallel-size 8 \
+  --enable-expert-parallel \
+  --port 8900 \
+  --speculative-config '{"method":"dspark", "attention_backend":"FLASH_ATTN", "num_speculative_tokens":7, "use_local_argmax_reduction":false}'
+
+python3 examples/bench_vllm.py   --input_len 2048 --output_len 2048   --data_num 100 --concurrency xxx   --base_url 
+http://127.0.0.1:8900/v1   --model deepseek_v4   --tokenizer_path /home/weight/DeepSeek-V4-Flash-0731
+
+
+不开lmhead tp:
+
+并发32：
+================ 结果 ================
+请求总数:     100
+成功 / 失败:  100 / 0
+总耗时:       93.00 s
+吞吐(req/s):  1.08
+输出吞吐(token/s): 2202.23
+总吞吐(token/s):   4404.45
+延迟 P50: 61447.6 ms
+延迟 P90: 87448.9 ms
+延迟 P99: 92976.0 ms
+平均延迟: 60871.1 ms
+
+
+并发4：
+
+================ 结果 ================
+请求总数:     100
+成功 / 失败:  100 / 0
+总耗时:       184.97 s
+吞吐(req/s):  0.54
+输出吞吐(token/s): 1107.21
+总吞吐(token/s):   2214.42
+延迟 P50: 96530.2 ms
+延迟 P90: 169064.2 ms
+延迟 P99: 183754.5 ms
+平均延迟: 96383.2 ms
+prompt tokens: 204800, completion tokens: 204800
+
+并发8：
+================ 结果 ================
+请求总数:     100
+成功 / 失败:  100 / 0
+总耗时:       142.94 s
+吞吐(req/s):  0.70
+输出吞吐(token/s): 1432.75
+总吞吐(token/s):   2865.50
+延迟 P50: 79059.8 ms
+延迟 P90: 133784.9 ms
+延迟 P99: 142791.1 ms
+平均延迟: 77623.4 ms
+prompt tokens: 204800, completion tokens: 204800
+
+
+开lmhead tp
+
+并发32：
+
+================ 结果 ================
+请求总数:     100
+成功 / 失败:  100 / 0
+总耗时:       92.80 s
+吞吐(req/s):  1.08
+输出吞吐(token/s): 2206.82
+总吞吐(token/s):   4413.64
+延迟 P50: 62273.9 ms
+延迟 P90: 87457.5 ms
+延迟 P99: 92517.2 ms
+平均延迟: 61097.5 ms
+prompt tokens: 204800, completion tokens: 204800
+
+并发8：
+================ 结果 ================
+请求总数:     100
+成功 / 失败:  100 / 0
+总耗时:       142.93 s
+吞吐(req/s):  0.70
+输出吞吐(token/s): 1432.86
+总吞吐(token/s):   2865.71
+延迟 P50: 78382.1 ms
+延迟 P90: 134896.7 ms
+延迟 P99: 142838.5 ms
+平均延迟: 77145.2 ms
+prompt tokens: 204800, completion tokens: 204800
